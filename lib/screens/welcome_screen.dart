@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:flutter_iiumap/provider/auth_provider.dart";
-import "package:flutter_iiumap/screens/home_screen.dart";
 import "package:flutter_iiumap/screens/register_screen.dart";
+import "package:flutter_iiumap/widgets/bottom_nav_bar.dart";
 import "package:flutter_iiumap/widgets/custom_button.dart";
 import "package:provider/provider.dart";
 
@@ -53,7 +53,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               () => Navigator.pushReplacement(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const HomeScreen(),
+                                  builder: (context) => const MainLayout(),
                                 ),
                               ),
                             );

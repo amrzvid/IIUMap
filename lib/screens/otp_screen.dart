@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iiumap/provider/auth_provider.dart';
-import 'package:flutter_iiumap/screens/home_screen.dart';
 import 'package:flutter_iiumap/screens/user_info_screen.dart';
 import 'package:flutter_iiumap/utils/utils.dart';
 import 'package:flutter_iiumap/widgets/custom_button.dart';
+import 'package:flutter_iiumap/widgets/bottom_nav_bar.dart';
 import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
@@ -149,7 +149,7 @@ void verifyOtp(BuildContext context, String userOtp) {
                             (value) => Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => const HomeScreen(),
+                                  builder: (context) => const MainLayout(),
                                 ),
                                 (route) => false),
                           ),

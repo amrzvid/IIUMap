@@ -17,8 +17,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _currentIndex = 0;
-
   final Completer<GoogleMapController> _googleMapController = Completer();
   Location _locationController = Location();
   static const LatLng _centerIIUM =
@@ -63,8 +61,6 @@ class _HomeScreenState extends State<HomeScreen> {
               style: ButtonStyle(
                 foregroundColor: MaterialStateProperty.all(Colors.white),
               )),
-
-              
         ],
       ),
       body: Stack(
@@ -72,7 +68,9 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           _currentPosition == null
               ? const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(
+                    color: Colors.blue,
+                  ),
                 )
               : GoogleMap(
                   myLocationButtonEnabled: false,
@@ -92,15 +90,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   },
                   polylines: {
-                  if (_info != null)
-                    Polyline(
-                      polylineId: const PolylineId('overview_polyline'),
-                      color: Colors.purpleAccent,
-                      width: 5,
-                      points: _info!.polylinePoints
-                        .map((e) => LatLng(e.latitude, e.longitude))
-                        .toList()
-                    ),
+                    if (_info != null)
+                      Polyline(
+                          polylineId: const PolylineId('overview_polyline'),
+                          color: Colors.purpleAccent,
+                          width: 5,
+                          points: _info!.polylinePoints
+                              .map((e) => LatLng(e.latitude, e.longitude))
+                              .toList()),
                   },
                   mapType: MapType.normal,
                   onMapCreated: (GoogleMapController controller) {
@@ -110,86 +107,42 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                   onLongPress: _addMarker,
                 ),
-
-                if(_info != null)
-                  Positioned(
-                    top: 20.0,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 6.0,
-                        horizontal: 12.0,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Colors.yellowAccent,
-                        borderRadius: BorderRadius.circular(20.0),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black26,
-                            offset: Offset(0, 2),
-                            blurRadius: 6.0,
-                          )
-                        ]
-                      ), 
-                      child: Text(
-                        '${_info!.totalDistance}, ${_info!.totalDuration}',
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  )
-
+          if (_info != null)
+            Positioned(
+              top: 20.0,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 6.0,
+                  horizontal: 12.0,
+                ),
+                decoration: BoxDecoration(
+                    color: Colors.yellowAccent,
+                    borderRadius: BorderRadius.circular(20.0),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.black26,
+                        offset: Offset(0, 2),
+                        blurRadius: 6.0,
+                      )
+                    ]),
+                child: Text(
+                  '${_info!.totalDistance}, ${_info!.totalDuration}',
+                  style: const TextStyle(
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+            )
         ],
       ),
-
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.white,
-      //   foregroundColor: Colors.black,
-        
-      //   onPressed: () => _googleMapController.animateCamera(
-      //     _info != null
-      //     ? CameraUpdate.newLatLngBounds(_info!.bounds, 100.0)
-      //     : CameraUpdate.newCameraPosition(_initialCameraPosition),
-      //   ),
-      //   child: const Icon(Icons.center_focus_strong),
-      // ),
-
-            
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        tooltip: "Search for a place",
-        child: const Icon(Icons.search),
+        tooltip: "Save your visit",
         backgroundColor: Colors.blue.shade50,
         foregroundColor: Colors.blue,
-        shape: CircleBorder(),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _currentIndex,
-        backgroundColor: Colors.blue,
-        selectedItemColor: Colors.blue.shade50,
-        unselectedItemColor: Colors.blue.shade900,
-        showUnselectedLabels: false,
-        selectedLabelStyle: const TextStyle(
-          fontSize: 14,
-          fontWeight: FontWeight.bold,
-        ),
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.map),
-            label: "LiveTracker",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.history),
-            label: "History",
-          ),
-        ],
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-        },
+        shape: const CircleBorder(),
+        child: const Icon(Icons.check),
       ),
     );
   }
@@ -238,13 +191,14 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _addMarker(LatLng pos) async{
-    if(_origin == null || (_origin != null && _destination != null)) {
+  void _addMarker(LatLng pos) async {
+    if (_origin == null || (_origin != null && _destination != null)) {
       setState(() {
         _origin = Marker(
           markerId: const MarkerId('origin'),
           infoWindow: const InfoWindow(title: 'Origin'),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+          icon:
+              BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
           position: pos,
         );
 
@@ -252,19 +206,19 @@ class _HomeScreenState extends State<HomeScreen> {
 
         _info = null;
       });
-    }else {
+    } else {
       setState(() {
         _destination = Marker(
           markerId: const MarkerId('destination'),
           infoWindow: const InfoWindow(title: 'Destination'),
           icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-          position: pos, 
+          position: pos,
         );
       });
 
-      final directions = await DirectionsRepository()
-        .getDirections(origin: _origin!.position, destination: _destination!.position);
-      setState(()=> _info = directions);
+      final directions = await DirectionsRepository().getDirections(
+          origin: _origin!.position, destination: _destination!.position);
+      setState(() => _info = directions);
     }
   }
 }
