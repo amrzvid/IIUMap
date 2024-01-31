@@ -176,14 +176,14 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.blue,
+                              color: Colors.blue.shade50,
                               borderRadius: BorderRadius.circular(15.0),
                             ),
                             child: ListTile(
                               contentPadding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 10),
                               leading: Icon(Icons.location_on,
-                                  color: Colors.white, size: 40.0),
+                                  color: Colors.red, size: 40.0),
                               title: FutureBuilder<String>(
                                 future: () {
                                   String location = history.location;
@@ -203,21 +203,21 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     return Text(
                                       snapshot.data!,
                                       style: TextStyle(
-                                          color: Colors.white,
+                                          color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     );
                                   } else if (snapshot.hasError) {
                                     return Text(
                                       'Error: ${snapshot.error}',
                                       style: TextStyle(
-                                          color: Colors.white,
+                                          color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     );
                                   } else {
                                     return Text(
                                       'Loading...',
                                       style: TextStyle(
-                                          color: Colors.white,
+                                          color: Colors.black,
                                           fontWeight: FontWeight.bold),
                                     );
                                   }
@@ -225,7 +225,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               ),
                               subtitle: Text(
                                   "Time: ${DateFormat('kk:mm – dd-MM-yyyy').format(DateTime.parse(history.timeStamp.toString()))}",
-                                  style: TextStyle(color: Colors.white)),
+                                  style: TextStyle(color: Colors.grey[700])),
                               trailing: GestureDetector(
                                 onTap: () {
                                   showDialog(
@@ -252,7 +252,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   );
                                 },
                                 child: Icon(Icons.keyboard_arrow_right,
-                                    color: Colors.white, size: 30),
+                                    color: Colors.black, size: 30),
                               ),
                             ),
                           ),

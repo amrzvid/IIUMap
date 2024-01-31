@@ -21,17 +21,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 35),
-            child: 
-            Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              
               children: [
                 const Image(
-                  image: AssetImage("assets/profile.gif"),
+                  image: AssetImage("assets/iiumap_logo_blue.png"),
                   height: 150,
                   width: 150,
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 10),
                 const Text(
                   "Welcome to IIUMap!",
                   style: TextStyle(

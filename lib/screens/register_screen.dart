@@ -40,7 +40,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 20),
+                const Image(
+                  image: AssetImage("assets/iiumap_logo_blue.png"),
+                  height: 120,
+                  width: 120,
+                ),
+                const SizedBox(height: 10),
                 const Text(
                   "Registration",
                   style: TextStyle(

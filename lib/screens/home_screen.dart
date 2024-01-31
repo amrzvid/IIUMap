@@ -188,54 +188,52 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           Positioned(
-              top: 10,
-              right: 10,
-              child: Container(
-                width: 100,
-                height: 40,
-                padding: const EdgeInsets.symmetric(
-                  vertical: 6.0,
-                  horizontal: 10,
+            top: 10,
+            right: 10,
+            child: Container(
+              width: 100,
+              height: 40,
+              padding: const EdgeInsets.symmetric(
+                vertical: 6.0,
+                horizontal: 10,
+              ),
+              decoration: BoxDecoration(boxShadow: const [
+                BoxShadow(
+                  color: Colors.grey,
+                  offset: Offset(0, 2),
+                  blurRadius: 6.0,
+                )
+              ], color: Colors.white, borderRadius: BorderRadius.circular(20)),
+              child: Center(
+                child: DropdownButton<String>(
+                  iconEnabledColor: Colors.blue,
+                  underline: const SizedBox(),
+                  value: _type,
+                  icon: const Icon(Icons.arrow_drop_down),
+                  iconSize: 20,
+                  elevation: 8,
+                  style: const TextStyle(color: Colors.black),
+                  onChanged: _onChanged,
+                  items: <String>[
+                    'All',
+                    'Mahallah',
+                    'Kuliyyah',
+                    'Others',
+                    'None'
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: const TextStyle(fontSize: 14),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  }).toList(),
                 ),
-                decoration: BoxDecoration(
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        offset: Offset(0, 2),
-                        blurRadius: 6.0,
-                      )
-                    ],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(20)),
-                child: Center(
-                  child: DropdownButton<String>(
-                    iconEnabledColor: Colors.blue,
-                    underline: const SizedBox(),
-                    value: _type,
-                    icon: const Icon(Icons.arrow_drop_down),
-                    iconSize: 20,
-                    elevation: 8,
-                    style: const TextStyle(color: Colors.black),
-                    onChanged: _onChanged,
-                    items: <String>[
-                      'All',
-                      'Mahallah',
-                      'Kuliyyah',
-                      'Others',
-                      'None'
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(
-                          value,
-                          style: const TextStyle(fontSize: 14),
-                          textAlign: TextAlign.center,
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              )),
+              ),
+            ),
+          ),
         ],
       ),
       floatingActionButton: FloatingActionButton(

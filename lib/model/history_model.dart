@@ -8,7 +8,6 @@ Future<void> addHistoryToFirestore(HistoryModel history) async {
   await ref.set(history.toMap()..['historyId'] = historyId);
 }
 
-
 class HistoryModel {
   String uid;
   String location;
