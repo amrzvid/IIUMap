@@ -5,6 +5,18 @@ import 'package:flutter_iiumap/screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:geocoding/geocoding.dart';
+
+Future<String> getAddress(double lat, double lon) async {
+  try {
+    List<Placemark> placemarks = await placemarkFromCoordinates(lat, lon);
+    Placemark place = placemarks[0];
+
+    return "${place.street}, ${place.locality}, ${place.country}";
+  } catch (e) {
+    return "Error: $e";
+  }
+}
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -186,9 +198,30 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               child: ListTile(
                                 contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                                 leading: Icon(Icons.location_on, color: Colors.white),
-                                title: Text(
-                                  history.location,
-                                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                title: FutureBuilder<String>(
+                                  future: () {
+                                    String location = history.location;
+                                    location = location.substring(location.indexOf('(') + 1, location.indexOf(')')); // Remove "LatLng(" and ")"
+                                    List<String> parts = location.split(','); // Split into latitude and longitude
+                                    double lat = double.parse(parts[0]);
+                                    double lon = double.parse(parts[1]);
+                                    return getAddress(lat, lon);
+                                  }(),
+                                  builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                                    if (snapshot.hasData) {
+                                      return Text(
+                                        snapshot.data!,
+                                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                      );
+                                    } else if (snapshot.hasError) {
+                                      return Text(
+                                        'Error: ${snapshot.error}',
+                                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                                      );
+                                    } else {
+                                      return CircularProgressIndicator();
+                                    }
+                                  },
                                 ),
                                 subtitle: Text(
                                   "Time: ${DateFormat('kk:mm – dd-MM-yyyy').format(DateTime.parse(history.timeStamp.toString()))}", 
