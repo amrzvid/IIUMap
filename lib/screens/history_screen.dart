@@ -151,11 +151,9 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           if (direction == DismissDirection.endToStart) {
                             FirebaseFirestore.instance
                                 .collection('history')
-                                .doc(history.uid)
+                                .doc(history.historyId)
                                 .delete()
-                                .catchError((error) {
-                              print("Error deleting document: $error");
-                            });
+                                .then((value) => print("History Deleted"));
                           }
                         },
                         child: Card(
