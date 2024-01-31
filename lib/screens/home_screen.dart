@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   zoomControlsEnabled: false,
                   initialCameraPosition: const CameraPosition(
                     target: _centerIIUM,
-                    zoom: 18.0,
+                    zoom: 16.0,
                   ),
                   markers: {
                     if (_origin != null) _origin!,
@@ -163,12 +163,13 @@ class _HomeScreenState extends State<HomeScreen> {
               left: 10,
               top: 10.0,
               child: Container(
+                height: 40.0,
                 padding: const EdgeInsets.symmetric(
                   vertical: 10.0,
                   horizontal: 12.0,
                 ),
                 decoration: BoxDecoration(
-                    color: Colors.lightGreenAccent,
+                    color: Colors.yellowAccent,
                     borderRadius: BorderRadius.circular(20.0),
                     boxShadow: const [
                       BoxShadow(
@@ -180,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Text(
                   '${_info!.totalDistance}, ${_info!.totalDuration}',
                   style: const TextStyle(
-                    fontSize: 18.0,
+                    fontSize: 14.0,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -320,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
       CameraUpdate.newCameraPosition(
         CameraPosition(
           target: position,
-          zoom: 18.0,
+          zoom: 16.0,
         ),
       ),
     );
@@ -378,7 +379,7 @@ class _HomeScreenState extends State<HomeScreen> {
         _destination = Marker(
           markerId: const MarkerId('destination'),
           infoWindow: const InfoWindow(title: 'Destination'),
-          icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+          icon: BitmapDescriptor.defaultMarker,
           position: pos,
         );
       });
