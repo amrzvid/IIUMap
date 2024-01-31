@@ -127,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   zoomControlsEnabled: false,
                   initialCameraPosition: const CameraPosition(
                     target: _centerIIUM,
-                    zoom: 15.0,
+                    zoom: 18.0,
                   ),
                   markers: {
                     if (_origin != null) _origin!,
@@ -321,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
       CameraUpdate.newCameraPosition(
         CameraPosition(
           target: position,
-          zoom: 15.0,
+          zoom: 18.0,
         ),
       ),
     );

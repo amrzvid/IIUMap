@@ -6,6 +6,7 @@ Future<void> addHistoryToFirestore(HistoryModel history) async {
   await _firestore.collection('history').add(history.toMap());
 }
 
+
 class HistoryModel {
   String uid;
   String location;
