@@ -197,7 +197,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               ),
                               child: ListTile(
                                 contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                                leading: Icon(Icons.location_on, color: Colors.white),
+                                leading: Icon(Icons.location_on, color: Colors.white, size: 40.0),
                                 title: FutureBuilder<String>(
                                   future: () {
                                     String location = history.location;
