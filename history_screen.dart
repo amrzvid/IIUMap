@@ -158,9 +158,24 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   mainAxisAlignment: MainAxisAlignment.center, // Center the column
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
-                                    Text(
-                                      '${ap.getUserModel.name}', // User name
-                                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                    FutureBuilder<DocumentSnapshot>(
+                                      future: FirebaseFirestore.instance.collection('users').doc(history.uid).get(),
+                                      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                                        if (snapshot.hasData) {
+                                          Map<String, dynamic> data = snapshot.data!.data() as Map<String, dynamic>;
+                                          return Text(
+                                            '${data['name']}', // User name
+                                            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                          );
+                                        } else if (snapshot.hasError) {
+                                          return Text(
+                                            'Error: ${snapshot.error}',
+                                            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                          );
+                                        } else {
+                                          return CircularProgressIndicator();
+                                        }
+                                      },
                                     ),
                                     Text(
                                       '${history.uid}', // User ID
