@@ -251,6 +251,7 @@ class _HomeScreenState extends State<HomeScreen> {
           String destinationName = _destination!.position.toString();
 
           HistoryModel history = HistoryModel(
+            historyId: '',
             uid: userId,
             location: destinationName, // Use the destination name here
             timeStamp: DateTime.now(),
@@ -279,14 +280,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Successfully saved!",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      )
-                    ),
+                    Text("Successfully saved!",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        )),
                     Text(
                       "Your visit has been saved to your history.",
                       style: TextStyle(
