@@ -1,6 +1,8 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_iiumap/model/history_model.dart';
+import 'package:flutter_iiumap/screens/history_screen.dart';
+import 'package:flutter_iiumap/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter_iiumap/provider/auth_provider.dart';
@@ -18,19 +20,68 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final Completer<GoogleMapController> _googleMapController = Completer();
-  Location _locationController = Location();
+  final Location _locationController = Location();
   static const LatLng _centerIIUM =
       LatLng(3.2503284083090898, 101.7345085386681);
-  LatLng? _currentPosition = null;
+  LatLng? _currentPosition;
+  final List<String> records = [];
+  Set<Marker> _markers = {};
+  String _type = 'All';
 
   Marker? _origin;
   Marker? _destination;
   Directions? _info;
 
+  void _fetchLocation(String typeFilter) async {
+    QuerySnapshot querySnapshot;
+    if (typeFilter == 'All') {
+      querySnapshot =
+          await FirebaseFirestore.instance.collection('location').get();
+    } else {
+      querySnapshot = await FirebaseFirestore.instance
+          .collection('location')
+          .where('type', isEqualTo: typeFilter)
+          .get();
+    }
+
+    setState(() {
+      _markers = querySnapshot.docs.map((doc) {
+        var location = doc.data() as Map<String, dynamic>;
+        return Marker(
+          markerId: MarkerId(doc.id),
+          position: LatLng(double.parse(location['latitude']),
+              double.parse(location['longitude'])),
+          infoWindow: InfoWindow(
+              title: location['name'],
+              snippet:
+                  "Latitude: ${location['latitude']} Longitude: ${location['longitude']}"),
+          icon: location['type'] == 'Mahallah'
+              ? BitmapDescriptor.defaultMarkerWithHue(
+                  BitmapDescriptor.hueOrange)
+              : location['type'] == 'Kuliyyah'
+                  ? BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueBlue)
+                  : BitmapDescriptor.defaultMarkerWithHue(
+                      BitmapDescriptor.hueMagenta),
+        );
+      }).toSet();
+    });
+  }
+
+  void _onChanged(String? value) {
+    if (value != null) {
+      setState(() {
+        _type = value;
+      });
+      _fetchLocation(_type);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     getLocationUpdates();
+    _fetchLocation(_type);
   }
 
   @override
@@ -88,6 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           BitmapDescriptor.hueAzure),
                       position: _currentPosition!,
                     ),
+                    ..._markers,
                   },
                   polylines: {
                     if (_info != null)
@@ -109,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
           if (_info != null)
             Positioned(
-              top: 20.0,
+              bottom: 20.0,
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   vertical: 6.0,
@@ -133,7 +185,45 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-            )
+            ),
+          Positioned(
+              top: 10,
+              right: 10,
+              child: Container(
+                width: 120,
+                height: 40,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 6.0,
+                  horizontal: 10,
+                ),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)),
+                child: DropdownButton<String>(
+                  value: _type,
+                  icon: const Icon(Icons.arrow_drop_down),
+                  iconSize: 10,
+                  elevation: 8,
+                  style: const TextStyle(color: Colors.black),
+                  onChanged: _onChanged,
+                  items: <String>[
+                    'All',
+                    'Mahallah',
+                    'Kuliyyah',
+                    'Others',
+                    'None'
+                  ].map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(
+                        value,
+                        style: const TextStyle(fontSize: 14),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  }).toList(),
+                ),
+              )),
         ],
       ),
       floatingActionButton: FloatingActionButton(
