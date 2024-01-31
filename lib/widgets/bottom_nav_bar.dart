@@ -13,8 +13,8 @@ class _MainLayoutState extends State<MainLayout> {
   int _selectedIndex = 0;
 
   final List<Widget> _pageOptions = [
-    HomeScreen(),
-    HistoryScreen(),
+    const HomeScreen(),
+    const HistoryScreen(),
   ];
 
   void _onItemTapped(int index) {

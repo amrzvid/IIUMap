@@ -1,8 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_iiumap/model/history_model.dart';
-import 'package:flutter_iiumap/screens/history_screen.dart';
-import 'package:flutter_iiumap/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter_iiumap/provider/auth_provider.dart';
@@ -54,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       (value) => Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => WelcomeScreen(),
+                            builder: (context) => const WelcomeScreen(),
                           ),
                           (route) => false),
                     );
@@ -145,7 +143,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
           // Check if a destination has been set
           if (_destination == null) {
-            print("No destination set");
             return;
           }
 
@@ -165,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
             List<String> records =
                 []; // Define the variable 'records' as an empty list
             records.add(
-                destinationName);// Add the destination name to the local list
+                destinationName); // Add the destination name to the local list
           });
 
           ScaffoldMessenger.of(context).showSnackBar(
@@ -175,22 +172,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.all(16),
                 height: 90,
                 decoration: BoxDecoration(
-                  borderRadius:const BorderRadius.all(
-                    Radius.circular(20)
-                  ),
+                  borderRadius: const BorderRadius.all(Radius.circular(20)),
                   color: Colors.green.withOpacity(0.8),
                 ),
-                child:const Column(
+                child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Successfully saved!",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white,
-                      )
-                    ),
+                    Text("Successfully saved!",
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        )),
                     Text(
                       "Your visit has been saved to your history.",
                       style: TextStyle(
@@ -209,13 +202,6 @@ class _HomeScreenState extends State<HomeScreen> {
               duration: const Duration(seconds: 1),
             ),
           );
-
-          
-
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => HistoryScreen()),
-          // );
         },
         tooltip: "Save your visit",
         backgroundColor: Colors.blue.shade50,

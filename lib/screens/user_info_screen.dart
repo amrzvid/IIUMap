@@ -97,7 +97,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         maxLines: maxLines,
         decoration: InputDecoration(
           prefixIcon: Container(
-            margin: EdgeInsets.all(8),
+            margin: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               color: Colors.blue,
               borderRadius: BorderRadius.circular(10),
