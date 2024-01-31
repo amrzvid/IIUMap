@@ -229,7 +229,23 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 ),
                                 trailing: GestureDetector(
                                   onTap: () {
-                                    // Add your code here
+                                    showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: Text('Location'),
+                                          content: Text(history.location),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: Text('Close'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
+                                    );
                                   },
                                   child: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30),
                                 ),
