@@ -160,14 +160,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
           if (_info != null)
             Positioned(
-              bottom: 20.0,
+              left: 10,
+              top: 10.0,
               child: Container(
                 padding: const EdgeInsets.symmetric(
-                  vertical: 6.0,
+                  vertical: 10.0,
                   horizontal: 12.0,
                 ),
                 decoration: BoxDecoration(
-                    color: Colors.yellowAccent,
+                    color: Colors.lightGreenAccent,
                     borderRadius: BorderRadius.circular(20.0),
                     boxShadow: const [
                       BoxShadow(
@@ -278,12 +279,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Successfully saved!",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        )),
+                    Text(
+                      "Successfully saved!",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      )
+                    ),
                     Text(
                       "Your visit has been saved to your history.",
                       style: TextStyle(
@@ -299,7 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
               behavior: SnackBarBehavior.floating,
               backgroundColor: Colors.transparent,
               elevation: 0,
-              duration: const Duration(seconds: 1),
+              duration: const Duration(seconds: 3),
             ),
           );
         },
