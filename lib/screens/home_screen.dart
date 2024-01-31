@@ -1,6 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_iiumap/model/history_model.dart';
+import 'package:flutter_iiumap/screens/history_screen.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter_iiumap/provider/auth_provider.dart';
@@ -137,7 +138,40 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          final ap = Provider.of<AuthProvider>(context, listen: false);
+          String userId = ap.getUserModel.uid; // Get the user ID
+
+          // Check if a destination has been set
+          if (_destination == null) {
+            print("No destination set");
+            return;
+          }
+
+          // Use the destination marker's position as the destination name
+          String destinationName = _destination!.position.toString();
+
+          HistoryModel history = HistoryModel(
+            uid: userId,
+            location: destinationName, // Use the destination name here
+            timeStamp: DateTime.now(),
+          );
+
+          await addHistoryToFirestore(
+              history); // Store the history in Firestore
+
+          setState(() {
+            List<String> records =
+                []; // Define the variable 'records' as an empty list
+            records.add(
+                destinationName); // Add the destination name to the local list
+          });
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => HistoryScreen()),
+          );
+        },
         tooltip: "Save your visit",
         backgroundColor: Colors.blue.shade50,
         foregroundColor: Colors.blue,
