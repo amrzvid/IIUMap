@@ -95,19 +95,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 5),
                   Text(
-                    "See your recent location here.",
+                    "See your recent location here",
                     style: TextStyle(
                       fontSize: 13,
                       color: Colors.grey[700],
                     ),
-                  ),
-                  SizedBox(height: 10),
-                  Icon(
-                    Icons.arrow_downward,
-                    color: Colors.blue,
-                    size: 24.0,
                   ),
                 ],
               ),
@@ -166,7 +160,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                 children: <Widget>[
                                   FutureBuilder<DocumentSnapshot>(
                                     future: FirebaseFirestore.instance
-                                        .collection('users')
+                                        .collection('history')
                                         .doc(history.uid)
                                         .get(),
                                     builder: (BuildContext context,
@@ -233,7 +227,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
                               EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.blue.shade200,
+                              color: Colors.blue,
                               borderRadius: BorderRadius.circular(15.0),
                             ),
                             child: ListTile(
@@ -284,11 +278,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                     context: context,
                                     builder: (BuildContext context) {
                                       return AlertDialog(
-                                        title: Text('Location'),
+                                        backgroundColor: Colors.blue.shade50,
+                                        title: Text('Location',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
                                         content: Text(history.location),
                                         actions: <Widget>[
                                           TextButton(
-                                            child: Text('Close'),
+                                            child: Text('Close',
+                                                style: TextStyle(
+                                                    color: Colors.blue)),
                                             onPressed: () {
                                               Navigator.of(context).pop();
                                             },
