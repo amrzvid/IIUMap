@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_iiumap/model/history_model.dart';
-import 'package:flutter_iiumap/screens/history_screen.dart';
-import 'package:flutter_iiumap/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter_iiumap/provider/auth_provider.dart';
