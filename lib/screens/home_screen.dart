@@ -279,12 +279,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Successfully saved!",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        )),
+                    Text(
+                      "Successfully saved!",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      )
+                    ),
                     Text(
                       "Your visit has been saved to your history.",
                       style: TextStyle(
