@@ -160,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
           if (_info != null)
             Positioned(
-              bottom: 20.0,
+              top: 20.0,
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   vertical: 6.0,
@@ -273,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 90,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.all(Radius.circular(20)),
-                  color: Colors.green.withOpacity(0.8),
+                  color: Color.fromARGB(255, 41, 150, 50).withOpacity(0.8),
                 ),
                 child: const Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
