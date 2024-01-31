@@ -9,11 +9,11 @@ The core goal of IIUMap is to simplify and enhance the navigation experience wit
 
 
 ## Features
-1. **Registration and Login**: 
-2. **Real-time Live Location Tracking**
-3. **Google Maps Markers for Hotspots**
-4. **Pinpoint Origin and Destination**
-5. **View Navigation History**
+1. **Registration and Login**: Swift and secure onboarding, ensuring users can personalize their IIUMap experience.
+2. **Real-time Live Location Tracking**: Continuous, accurate tracking of the user's location within the IIUM Gombak campus for dynamic navigation.
+3. **Google Maps Markers for Hotspots**: Visual markers on Google Maps highlight key areas of interest, aiding easy identification and navigation.
+4. **Pinpoint Origin and Destination**: Precise location identification for both starting point and destination, optimizing navigation routes.
+5. **View Navigation History**: Retrospective overview of recently visited places, promoting self-awareness and aiding in recalling past routes.
 
 ## Our Team
 This project was developed by:
