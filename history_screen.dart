@@ -4,6 +4,7 @@ import 'package:flutter_iiumap/provider/auth_provider.dart';
 import 'package:flutter_iiumap/screens/welcome_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -137,7 +138,26 @@ class _HistoryScreenState extends State<HistoryScreen> {
                             alignment: Alignment.centerLeft,
                             padding: EdgeInsets.only(left: 20.0),
                             color: Colors.green,
-                            child: Icon(Icons.person, color: Colors.white),
+                            child: Row(
+                              children: <Widget>[
+                                Icon(Icons.person, color: Colors.white, size: 50.0), // Profile icon
+                                SizedBox(width: 15), // Spacing between the icon and the text
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.center, // Center the column
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text(
+                                      '${ap.getUserModel.name}', // User name
+                                      style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+                                    ),
+                                    Text(
+                                      '${history.uid}', // User ID
+                                      style: TextStyle(color: Colors.white),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                           secondaryBackground: Container(
                             alignment: Alignment.centerRight,
@@ -170,8 +190,16 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                   history.location,
                                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                 ),
-                                subtitle: Text("Time: ${history.timeStamp}", style: TextStyle(color: Colors.white)),
-                                trailing: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30),
+                                subtitle: Text(
+                                  "Time: ${DateFormat('kk:mm – dd-MM-yyyy').format(DateTime.parse(history.timeStamp.toString()))}", 
+                                  style: TextStyle(color: Colors.white)
+                                ),
+                                trailing: GestureDetector(
+                                  onTap: () {
+                                    // Add your code here
+                                  },
+                                  child: Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30),
+                                ),
                               ),
                             ),
                           ),
