@@ -1,50 +1,24 @@
-# OTP Phone Authentication Mobile Application
+# IIUMap
 
-- This is a mobile app used to authenticate valid user by using One Time Password (OTP)'s system 
+## Introduction
+IIUMap is a mobile application built for local navigation inside IIUM Gombak, making it easier than ever to find your way within the campus. Using the application, users can track their real-time live location, view hotspots, pinpoint destinations for navigation, and ultimately trace back their recently visited places. This allows for better accessibility and understanding of IIUM Gombak, especially for newcomers and outsiders.
 
 
+## Objective
+The core goal of IIUMap is to simplify and enhance the navigation experience within IIUM Gombak, facilitating effortless exploration for users. By offering real-time location tracking, hotspot visibility, and destination pinpointing, the app aims to improve accessibility, particularly for newcomers and outsiders. The ultimate objective is to empower users to confidently navigate the campus, fostering a seamless integration into the IIUM Gombak community.
 
-## Features included 
 
-- Welcome Page
-- Home Page (Login)
-- OTP Code Validation Page
-- Update User Profile Page
-- User Profile Page
-- Firebase Authentication
-- Firebase Storage
-- Cloud Firestore
-
+## Features
+1. **Registration and Login**: Swift and secure onboarding, ensuring users can personalize their IIUMap experience.
+2. **Real-time Live Location Tracking**: Continuous, accurate tracking of the user's location within the IIUM Gombak campus for dynamic navigation.
+3. **Google Maps Markers for Hotspots**: Visual markers on Google Maps highlight key areas of interest, aiding easy identification and navigation.
+4. **Pinpoint Origin and Destination**: Precise location identification for both starting point and destination, optimizing navigation routes.
+5. **View Navigation History**: Retrospective overview of recently visited places, promoting self-awareness and aiding in recalling past routes.
 
 ## Our Team
+This project was developed by:
 
-This project was made by:
-
-- Amir
+- Amir bin Zaid (2010829)
 - Azam
 - Haziq
 - Aiman
-
-
-## Work Distribution
-
-Haziq Izzat: 
-- Implement the OTP input screen using the pinput package.
-- Assisting with setting up basic backend functionalities and learning about Firebase endpoints and their integration.
-- Integrate user authentication with the OTP validation process.
-
-Aiman Syakirin:
-- Set up a firebase server.
-- Implement firebase for OTP validation.
-- Implement additional UI components and screens.(custom button)
-
-Amir Zaid :
-- Choose and set up an authentication service (e.g., Firebase Authentication).
-- Implement user authentication on the backend.
-- Handle user interactions and UI state.
-
-Azamuddeen:
-- Participate in the frontend development process.
-- Integrate the backend with the Flutter app.
-- Assist with user interactions and state management.
-- Collaborate with Aiman and Amir on frontend tasks related to authentication.
