@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_iiumap/model/history_model.dart';
 import 'package:flutter_iiumap/screens/history_screen.dart';
+import 'package:flutter_iiumap/utils/utils.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
 import 'package:flutter_iiumap/provider/auth_provider.dart';
@@ -164,13 +165,57 @@ class _HomeScreenState extends State<HomeScreen> {
             List<String> records =
                 []; // Define the variable 'records' as an empty list
             records.add(
-                destinationName); // Add the destination name to the local list
+                destinationName);// Add the destination name to the local list
           });
 
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => HistoryScreen()),
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.all(16),
+                height: 90,
+                decoration: BoxDecoration(
+                  borderRadius:const BorderRadius.all(
+                    Radius.circular(20)
+                  ),
+                  color: Colors.green.withOpacity(0.8),
+                ),
+                child:const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Successfully saved!",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      )
+                    ),
+                    Text(
+                      "Your visit has been saved to your history.",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              duration: const Duration(seconds: 1),
+            ),
           );
+
+          
+
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => HistoryScreen()),
+          // );
         },
         tooltip: "Save your visit",
         backgroundColor: Colors.blue.shade50,
