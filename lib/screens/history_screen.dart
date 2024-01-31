@@ -142,66 +142,6 @@ class _HistoryScreenState extends State<HistoryScreen> {
                       return Dismissible(
                         key: Key(history.uid),
                         background: Container(
-                          alignment: Alignment.centerLeft,
-                          padding: EdgeInsets.only(left: 20.0),
-                          color: Colors.green,
-                          child: Row(
-                            children: <Widget>[
-                              Icon(Icons.person,
-                                  color: Colors.white,
-                                  size: 50.0), // Profile icon
-                              SizedBox(
-                                  width:
-                                      15), // Spacing between the icon and the text
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment
-                                    .center, // Center the column
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  FutureBuilder<DocumentSnapshot>(
-                                    future: FirebaseFirestore.instance
-                                        .collection('history')
-                                        .doc(history.uid)
-                                        .get(),
-                                    builder: (BuildContext context,
-                                        AsyncSnapshot<DocumentSnapshot>
-                                            snapshot) {
-                                      if (snapshot.hasData) {
-                                        Map<String, dynamic> data =
-                                            snapshot.data!.data()
-                                                as Map<String, dynamic>;
-                                        return Text(
-                                          '${data['name']}', // User name
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        );
-                                      } else if (snapshot.hasError) {
-                                        return Text(
-                                          'Error: ${snapshot.error}',
-                                          style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.bold),
-                                        );
-                                      } else {
-                                        return CircularProgressIndicator(
-                                          color: Colors.blue,
-                                        );
-                                      }
-                                    },
-                                  ),
-                                  Text(
-                                    '${history.uid}', // User ID
-                                    style: TextStyle(color: Colors.white),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        secondaryBackground: Container(
                           alignment: Alignment.centerRight,
                           padding: EdgeInsets.only(right: 20.0),
                           color: Colors.red,
