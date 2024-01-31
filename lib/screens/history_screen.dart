@@ -118,12 +118,13 @@ class _HistoryScreenState extends State<HistoryScreen> {
             StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('history')
+                  .where('uid', isEqualTo: ap.getUserModel.uid)
                   .orderBy('timeStamp', descending: true)
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
-                  return Text('Something went wrong');
+                  return Text('Something went wrong: ${snapshot.error}');
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -148,13 +149,11 @@ class _HistoryScreenState extends State<HistoryScreen> {
                           child: Icon(Icons.delete, color: Colors.white),
                         ),
                         onDismissed: (direction) {
-                          if (direction == DismissDirection.endToStart) {
-                            FirebaseFirestore.instance
-                                .collection('history')
-                                .doc(history.historyId)
-                                .delete()
-                                .then((value) => print("History Deleted"));
-                          }
+                          FirebaseFirestore.instance
+                              .collection('history')
+                              .doc(history.historyId)
+                              .delete()
+                              .then((value) => print("History Deleted"));
                         },
                         child: Card(
                           shape: RoundedRectangleBorder(
@@ -203,7 +202,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                           fontWeight: FontWeight.bold),
                                     );
                                   } else {
-                                    return CircularProgressIndicator();
+                                    return Text(
+                                      'Loading...',
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold),
+                                    );
                                   }
                                 },
                               ),
