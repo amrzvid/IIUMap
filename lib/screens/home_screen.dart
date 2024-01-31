@@ -1,5 +1,8 @@
 import 'dart:async';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_iiumap/model/history_model.dart';
+import 'package:flutter_iiumap/screens/history_screen.dart';
+import 'package:flutter_iiumap/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -18,21 +21,63 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final Completer<GoogleMapController> _googleMapController = Completer();
-  Location _locationController = Location();
+  final Location _locationController = Location();
   static const LatLng _centerIIUM =
       LatLng(3.2503284083090898, 101.7345085386681);
-  LatLng? _currentPosition = null;
-
+  LatLng? _currentPosition;
+  final List<String> records = []; 
+  Set<Marker> _markers = {};
+  String _type = 'All';
+  
   Marker? _origin;
   Marker? _destination;
   Directions? _info;
+
+
+  void _fetchLocation(String typeFilter) async {
+    QuerySnapshot querySnapshot;
+    if (typeFilter == 'All') {
+      querySnapshot = await FirebaseFirestore.instance.collection('location').get();
+    }
+    else{
+      querySnapshot = await FirebaseFirestore.instance.collection('location').where('type', isEqualTo: typeFilter).get();
+    }
+
+    setState(() {
+      _markers = querySnapshot.docs.map((doc) {
+        var location = doc.data() as Map<String, dynamic>;
+        return Marker(
+          markerId: MarkerId(doc.id),
+          position: LatLng(double.parse(location['latitude']), double.parse(location['longitude'])),
+          infoWindow: InfoWindow(
+            title: location['name'],
+            snippet: "Latitude: ${location['latitude']} Longitude: ${location['longitude']}"
+          ),
+          icon: location['type'] == 'Mahallah' ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueOrange) : 
+          location['type'] == 'Kuliyyah' ? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue) :
+          BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueMagenta),
+        );
+      }).toSet();
+    });
+  }
+
+  void _onChanged (String? value) {
+    if (value != null) {
+        setState(() {
+      _type = value;
+    });
+      _fetchLocation(_type);
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     getLocationUpdates();
+    _fetchLocation(_type);
   }
 
+  
   @override
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context, listen: false);
@@ -88,6 +133,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           BitmapDescriptor.hueAzure),
                       position: _currentPosition!,
                     ),
+                    ..._markers,
                   },
                   polylines: {
                     if (_info != null)
@@ -109,7 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
           if (_info != null)
             Positioned(
-              top: 20.0,
+              bottom: 20.0,
               child: Container(
                 padding: const EdgeInsets.symmetric(
                   vertical: 6.0,
@@ -125,6 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         blurRadius: 6.0,
                       )
                     ]),
+
                 child: Text(
                   '${_info!.totalDistance}, ${_info!.totalDuration}',
                   style: const TextStyle(
@@ -133,11 +180,116 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-            )
+            ),
+
+            Positioned(
+              top: 10,
+              right: 10,
+              child: Container(
+                width: 120,
+                height: 40,
+                padding: const EdgeInsets.symmetric(
+                  vertical: 6.0,
+                  horizontal: 10,
+                ),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20)
+                ),             
+              child: DropdownButton<String>(
+                    value: _type,
+                    icon: const Icon(Icons.arrow_drop_down),
+                    iconSize: 10,
+                    elevation: 8,
+                    style: const TextStyle(color: Colors.black),
+                    onChanged: _onChanged,
+                    items: <String>['All', 'Mahallah', 'Kuliyyah', 'Others', 'None']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value, 
+                                    style: const TextStyle(
+                                      fontSize: 14),
+                                      textAlign: TextAlign.center,),
+                      );
+                    }).toList(),
+                  ),
+              )
+            ),
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () async {
+          final ap = Provider.of<AuthProvider>(context, listen: false);
+          String userId = ap.getUserModel.uid; // Get the user ID
+
+          // Check if a destination has been set
+          if (_destination == null) {
+            print("No destination set");
+            return;
+          }
+
+          // Use the destination marker's position as the destination name
+          String destinationName = _destination!.position.toString();
+
+          HistoryModel history = HistoryModel(
+            uid: userId,
+            location: destinationName, // Use the destination name here
+            timeStamp: DateTime.now(),
+          );
+
+          await addHistoryToFirestore(
+              history); // Store the history in Firestore
+
+          setState(() {
+            List<String> records =
+                []; // Define the variable 'records' as an empty list
+            records.add(
+                destinationName);// Add the destination name to the local list
+          });
+
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Container(
+                alignment: Alignment.centerLeft,
+                padding: EdgeInsets.all(16),
+                height: 90,
+                decoration: BoxDecoration(
+                  borderRadius:const BorderRadius.all(
+                    Radius.circular(20)
+                  ),
+                  color: Colors.green.withOpacity(0.8),
+                ),
+                child:const Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Successfully saved!",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                      )
+                    ),
+                    Text(
+                      "Your visit has been saved to your history.",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
+              ),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+              duration: const Duration(seconds: 1),
+            ),
+          );
+        },
         tooltip: "Save your visit",
         backgroundColor: Colors.blue.shade50,
         foregroundColor: Colors.blue,
