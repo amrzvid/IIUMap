@@ -119,12 +119,24 @@ class _HistoryScreenState extends State<HistoryScreen> {
               stream: FirebaseFirestore.instance
                   .collection('history')
                   .where('uid', isEqualTo: ap.getUserModel.uid)
-                  .orderBy('timeStamp', descending: true)
                   .snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (snapshot.hasError) {
-                  return Text('Something went wrong: ${snapshot.error}');
+                  return Text('Something went wrong...');
+                } else if (snapshot.hasData! && snapshot.data!.docs.isEmpty) {
+                  return Text(
+                    'No history found',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Colors.grey[700],
+                    ),
+                  );
+                } else if (snapshot.connectionState ==
+                    ConnectionState.waiting) {
+                  return CircularProgressIndicator(
+                    color: Colors.blue,
+                  );
                 }
 
                 if (snapshot.connectionState == ConnectionState.waiting) {
