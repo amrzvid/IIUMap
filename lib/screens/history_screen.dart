@@ -41,7 +41,7 @@ class _HistoryScreenState extends State<HistoryScreen> {
         backgroundColor: Colors.blue,
         title: const Text("IIUMap"),
         titleTextStyle: const TextStyle(
-          fontSize: 18,
+          fontSize: 25,
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),

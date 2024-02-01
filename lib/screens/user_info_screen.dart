@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_iiumap/model/user_model.dart';
 import 'package:flutter_iiumap/provider/auth_provider.dart';
-import 'package:flutter_iiumap/screens/home_screen.dart';
+import 'package:flutter_iiumap/widgets/bottom_nav_bar.dart';
 import 'package:flutter_iiumap/widgets/custom_button.dart';
 import 'package:provider/provider.dart';
 
@@ -148,7 +148,7 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                     (value) => Navigator.pushAndRemoveUntil(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => const HomeScreen()),
+                            builder: (context) => const MainLayout()),
                         (route) => false),
                   ),
             );
