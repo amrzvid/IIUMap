@@ -368,9 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _currentPosition =
               LatLng(currentLocation.latitude!, currentLocation.longitude!);
           // _cameraToCurrentPosition(_currentPosition!);
-        //   Future.delayed(const Duration(seconds: 2), () {
-        //   _cameraToCurrentPosition(_currentPosition!);
-        // });
+        
         });
       }
     });
@@ -397,40 +395,16 @@ class _HomeScreenState extends State<HomeScreen> {
           position: pos,
         );
 
-        Future.delayed(const Duration(seconds: 2), () {
+        Future.delayed(const Duration(seconds: 3), () {
           _cameraToCurrentPosition(_currentPosition!);
         });
 
         
-        
       });
-    // if (_origin == null || (_origin != null && _destination != null)) {
-    //   setState(() {
-    //     _origin = Marker(
-    //       markerId: const MarkerId('origin'),
-    //       infoWindow: const InfoWindow(title: 'Origin'),
-    //       icon:
-    //           BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-    //       position: pos,
-    //     );
-
-    //     _destination = null;
-
-    //     _info = null;
-    //   });
-    // } else {
-    //   setState(() {
-    //     _destination = Marker(
-    //       markerId: const MarkerId('destination'),
-    //       infoWindow: const InfoWindow(title: 'Destination'),
-    //       icon: BitmapDescriptor.defaultMarker,
-    //       position: pos,
-    //     );
-    //   });
+    
 
       final directions = await DirectionsRepository().getDirections(
           origin: _origin!.position, destination: _destination!.position);
       setState(() => _info = directions);
-    // }
   }
 }
