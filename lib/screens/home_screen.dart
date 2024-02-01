@@ -147,6 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       icon: BitmapDescriptor.defaultMarkerWithHue(
                           BitmapDescriptor.hueAzure),
                       position: _currentPosition!,
+                      
                     ),
                     ..._markers,
                   },
