@@ -19,6 +19,7 @@ The core goal of IIUMap is to simplify and enhance the navigation experience wit
 This project was developed by:
 
 - Amir bin Zaid (2010829)
-- Azam
-- Haziq
-- Aiman
+- Azamuddeen Bin Shahpudin (2018065)
+- Mohamad Haziq Izzat (2012731)
+- Muhammad Aiman Syakirin (2010391)
+
