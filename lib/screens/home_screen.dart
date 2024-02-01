@@ -91,7 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.blue,
         title: const Text("IIUMap"),
         titleTextStyle: const TextStyle(
-          fontSize: 18,
+          fontSize: 25,
           color: Colors.white,
           fontWeight: FontWeight.bold,
         ),
@@ -123,17 +123,27 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 )
               : GoogleMap(
+                  compassEnabled: true,
                   myLocationButtonEnabled: false,
                   zoomControlsEnabled: false,
                   initialCameraPosition: const CameraPosition(
                     target: _centerIIUM,
                     zoom: 16.0,
                   ),
+                  cameraTargetBounds: CameraTargetBounds(
+                    LatLngBounds(
+                      southwest: const LatLng(3.241956806740368, 101.72900526765468),
+                      northeast: const LatLng(3.262587264239148, 101.74832790137417),
+                    ),
+                  
+                  ),
+                  minMaxZoomPreference: const MinMaxZoomPreference(15, 20),
                   markers: {
                     if (_origin != null) _origin!,
                     if (_destination != null) _destination!,
                     Marker(
                       markerId: const MarkerId("_userLocation"),
+                      infoWindow: const InfoWindow(title: 'Your position'),
                       icon: BitmapDescriptor.defaultMarkerWithHue(
                           BitmapDescriptor.hueAzure),
                       position: _currentPosition!,
@@ -243,6 +253,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           // Check if a destination has been set
           if (_destination == null) {
+            
             return;
           }
 
@@ -264,6 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 []; // Define the variable 'records' as an empty list
             records.add(
                 destinationName); // Add the destination name to the local list
+           
           });
 
           ScaffoldMessenger.of(context).showSnackBar(
@@ -309,7 +321,11 @@ class _HomeScreenState extends State<HomeScreen> {
         foregroundColor: Colors.blue,
         shape: const CircleBorder(),
         child: const Icon(Icons.check),
+        
+
       ),
+
+      
     );
   }
 
