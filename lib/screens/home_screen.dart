@@ -335,7 +335,7 @@ class _HomeScreenState extends State<HomeScreen> {
       CameraUpdate.newCameraPosition(
         CameraPosition(
           target: position,
-          zoom: 16.0,
+          zoom: 17.0,
         ),
       ),
     );
@@ -367,40 +367,70 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           _currentPosition =
               LatLng(currentLocation.latitude!, currentLocation.longitude!);
-          _cameraToCurrentPosition(_currentPosition!);
+          // _cameraToCurrentPosition(_currentPosition!);
+        //   Future.delayed(const Duration(seconds: 2), () {
+        //   _cameraToCurrentPosition(_currentPosition!);
+        // });
         });
       }
     });
   }
 
   void _addMarker(LatLng pos) async {
-    if (_origin == null || (_origin != null && _destination != null)) {
       setState(() {
         _origin = Marker(
           markerId: const MarkerId('origin'),
           infoWindow: const InfoWindow(title: 'Origin'),
           icon:
               BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
-          position: pos,
+          position: _currentPosition!,
         );
 
         _destination = null;
 
         _info = null;
-      });
-    } else {
-      setState(() {
+
         _destination = Marker(
           markerId: const MarkerId('destination'),
           infoWindow: const InfoWindow(title: 'Destination'),
           icon: BitmapDescriptor.defaultMarker,
           position: pos,
         );
+
+        Future.delayed(const Duration(seconds: 2), () {
+          _cameraToCurrentPosition(_currentPosition!);
+        });
+
+        
+        
       });
+    // if (_origin == null || (_origin != null && _destination != null)) {
+    //   setState(() {
+    //     _origin = Marker(
+    //       markerId: const MarkerId('origin'),
+    //       infoWindow: const InfoWindow(title: 'Origin'),
+    //       icon:
+    //           BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+    //       position: pos,
+    //     );
+
+    //     _destination = null;
+
+    //     _info = null;
+    //   });
+    // } else {
+    //   setState(() {
+    //     _destination = Marker(
+    //       markerId: const MarkerId('destination'),
+    //       infoWindow: const InfoWindow(title: 'Destination'),
+    //       icon: BitmapDescriptor.defaultMarker,
+    //       position: pos,
+    //     );
+    //   });
 
       final directions = await DirectionsRepository().getDirections(
           origin: _origin!.position, destination: _destination!.position);
       setState(() => _info = directions);
-    }
+    // }
   }
 }
